@@ -1,7 +1,7 @@
 "use strict";
 
 
-const requestAPI = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=7';
+const requestAPI = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=6';
 
 let status = function (response) {
   if (response.status !== 200) {
@@ -50,9 +50,24 @@ function checkUsersKey(levelText) {
   
     let currLetterNumber = 0; //счетчик вводимых символов
     let keyName; // то что ввел пользователь
-    
+    let start = 0; 
+    let end;
+
+
+    //функция определения скорости печатания
+    let timerId = setInterval(() => {
+      if (start != 0)  {
+      end = Date.now();
+       let speed = (currLetterNumber - mistakesCounter) / ((end - start) / 1000 / 60);
+      document.querySelector('#speed-number').innerHTML = Math.round(speed);
+      }
+    }, 1000);
+
 
     function enterKeyEvent(event) {
+      if (currLetterNumber == 0) {
+        start = Date.now();
+      }
         keyName = getChar(event);
         // проверка правельности ввода
         if (levelText[currLetterNumber] == keyName) {  
@@ -68,6 +83,7 @@ function checkUsersKey(levelText) {
         
           // Делаем проверку, если текущий символ равен длинне символов
         if (currLetterNumber >= levelText.length) {
+          setTimeout(() => { clearInterval(timerId); },)
             document.removeEventListener('keypress', enterKeyEvent);
             return;
         }

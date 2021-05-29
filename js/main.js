@@ -80,6 +80,10 @@ function checkUsersKey(levelText) {
             mistakesCounter++;
             currLetterNumber++;
         }
+
+        //определение точности ввода
+        let accuracy = 100 - mistakesCounter / levelText.length * 100;
+        document.querySelector('#accuracy-number').innerHTML = accuracy.toFixed(1);
         
           // Делаем проверку, если текущий символ равен длинне символов
         if (currLetterNumber >= levelText.length) {
